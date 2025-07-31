@@ -1,7 +1,7 @@
 # core/download_video.py
 
 from yt_dlp import YoutubeDL
-
+import traceback
 import yt_dlp
 import os
 import random
@@ -69,6 +69,5 @@ def download_video(url, output_path):
                 print(f"⬇️ Downloading: {url}")
                 ydl.download([url])
             return output_path
-        except Exception as e:
-            
+    except Exception as e:
             traceback.print_exc()        
