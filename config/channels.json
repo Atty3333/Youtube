@@ -1,0 +1,7 @@
+{
+    "Rico": {
+        "token_path": "config//Rico/Rico_token.pkl",
+        "secret_path": "config/Rico/Rico_token.json"
+    }
+
+}

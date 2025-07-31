@@ -1,0 +1,6 @@
+services:
+  - type: cron
+    name: youtube-upload-bot
+    schedule: "0 21 * * *"  # every day at 11PM Botswana time (UTC+2)
+    command: "python main.py"
+
