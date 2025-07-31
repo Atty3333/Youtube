@@ -53,7 +53,7 @@ def download_video(url, output_path):
         "fragment_retries": 10,
         "socket_timeout": 30,
         "noplaylist": True,
-        'cookies': '../youtube.com_cookies.txt'
+        'cookies': '../youtube.com_cookies.txt',
 
         'postprocessors': [
 
