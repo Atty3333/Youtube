@@ -52,7 +52,7 @@ def download_video(url, output_path,PROJECT_ROOT):#using ytdlp
     else:
         print(" there")
     try:
-
+        try:
             ydl_opts = {
                 'format': 'bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/mp4',  # 360p video with audio, fallback to mp4
                 'outtmpl': output_path,
@@ -74,7 +74,8 @@ def download_video(url, output_path,PROJECT_ROOT):#using ytdlp
                 ],
                 'postprocessor_args': ['-an'],  # Mute audio by disabling it
             }
-        
+        except Exception as e:
+                traceback.print_exc()        
             with YoutubeDL(ydl_opts) as ydl:
                 print(f"⬇️ Downloading: {url}")
                 ydl.download([url])
