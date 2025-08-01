@@ -12,7 +12,7 @@ def search_and_download(keyword, output_path=os.path.normpath('clips/source_vide
     
         # Get the directory one level above the current file (i.e., the project root)
     PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+    print(PROJECT_ROOT+" THIS IS THE PROJECT ROOT")
     # Construct the correct path to clips/source_video.mp4
     output_path = os.path.join(PROJECT_ROOT, 'clips', 'source_video.mp4')
 
