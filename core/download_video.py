@@ -42,7 +42,7 @@ def search_and_download(keyword, output_path=os.path.normpath('clips/source_vide
     print("❌ No suitable video found.")
     return None
 
-def download_video(url, output_path,PROJECT_ROOT):
+def download_video2(url, output_path,PROJECT_ROOT):#using ytdlp
     cookie=os.path.join(PROJECT_ROOT, 'youtube.com_cookies.txt')
     print(cookie)
     try:
@@ -75,3 +75,48 @@ def download_video(url, output_path,PROJECT_ROOT):
             return output_path
     except Exception as e:
             traceback.print_exc()        
+
+
+def download_video(url, output_path):#using pytube
+    try:
+        print(f"⬇️ Downloading: {url}")
+        
+        yt = YouTube(url)
+
+        # Get 360p video stream (video-only)
+        video_stream = yt.streams.filter(progressive=False, file_extension='mp4', res="360p", only_video=True).first()
+        # Get audio stream (audio-only)
+        audio_stream = yt.streams.filter(only_audio=True, file_extension='mp4').first()
+
+        if not video_stream or not audio_stream:
+            print("❌ Could not find suitable video or audio streams.")
+            return None
+
+        # Temporary paths
+        base, ext = os.path.splitext(output_path)
+        video_temp = base + "_video.mp4"
+        audio_temp = base + "_audio.mp4"
+
+        # Download streams
+        video_stream.download(filename=video_temp)
+        audio_stream.download(filename=audio_temp)
+
+        # Merge video + audio using moviepy
+        video_clip = VideoFileClip(video_temp)
+        audio_clip = AudioFileClip(audio_temp)
+
+        final_clip = video_clip.set_audio(audio_clip)
+        final_clip.write_videofile(output_path, codec="libx264", audio_codec="aac", remove_temp=True)
+
+        # Cleanup
+        video_clip.close()
+        audio_clip.close()
+        os.remove(video_temp)
+        os.remove(audio_temp)
+
+        print(f"✅ Saved to: {output_path}")
+        return output_path
+
+    except Exception as e:
+        traceback.print_exc()
+        return None
