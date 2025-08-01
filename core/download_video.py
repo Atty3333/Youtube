@@ -38,11 +38,11 @@ def search_and_download(keyword, output_path=os.path.normpath('clips/source_vide
         video_url = selected["url"]  # use webpage_url not just "url" for full URL
 
         print(f"🎲 Randomly selected video: {selected['title']} ({selected['duration']}s)")
-        return download_video(video_url, output_path)
+        return download_video(video_url, output_path,PROJECT_ROOT)
     print("❌ No suitable video found.")
     return None
 
-def download_video(url, output_path):
+def download_video(url, output_path,PROJECT_ROOT):
     try:
             ydl_opts = {
                 'format': 'bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/mp4',  # 360p video with audio, fallback to mp4
