@@ -7,6 +7,7 @@ import os
 import random
 from pytubefix import YouTube
 from moviepy.editor import VideoFileClip, AudioFileClip
+from playwright.sync_api import sync_playwright
 
 def search_and_download(keyword, output_path=os.path.normpath('clips/source_video.mp4'), duration_limit=300):
     
@@ -45,28 +46,41 @@ def search_and_download(keyword, output_path=os.path.normpath('clips/source_vide
     return None
 
 def download_video(url, output_path, PROJECT_ROOT):
-    cookie_path = os.path.join(PROJECT_ROOT, 'youtube.com_cookies.txt')
-    print(f"Using cookie file: {cookie_path}")
+    print(f"🌐 Launching browser to simulate human interaction on: {url}")
+    
+    # Step 1: Simulate a real user with Playwright
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)  # headless=True runs in background
+            page = browser.new_page()
 
-    if not os.path.exists(cookie_path):
-        print("❌ Cookie file not found!")
+            page.goto(url, timeout=60000)
+            page.wait_for_timeout(5000)  # Wait for 5 seconds to fully load
+
+            print("✅ Page loaded successfully (simulated browser).")
+            video_title = page.title()
+            print(f"🎬 Video Title: {video_title}")
+
+            browser.close()
+    except Exception as e:
+        print("❌ Failed to simulate browser visit:")
+        traceback.print_exc()
         return None
-    else:
-        print("✅ Cookie file found.")
 
+    # Step 2: Use yt-dlp to download after simulated visit
     try:
         ydl_opts = {
             'format': 'mp4',
             'outtmpl': output_path,
             'quiet': False,
             'noplaylist': True,
+            'retries': 10,
             'http_headers': {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115 Safari/537.36'
             }
         }
 
-
-        print(f"⬇️ Downloading: {url}")
+        print(f"⬇️ Downloading video via yt-dlp: {url}")
         with YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
         print("✅ Download completed.")
