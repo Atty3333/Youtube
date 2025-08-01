@@ -75,10 +75,13 @@ def download_video(url, output_path,PROJECT_ROOT):#using ytdlp
                 'postprocessor_args': ['-an'],  # Mute audio by disabling it
             }
         except Exception as e:
-                traceback.print_exc()        
+                traceback.print_exc()
+            with YoutubeDL(ydl_opts) as ydl:
+                print(f"⬇️ Downloading: {url}")
+                ydl.download([url])
+            return output_path
 
-    except Exception as e:
-            traceback.print_exc()        
+       
 
 
 def download_video2(url, output_path,PROJECT_ROOT):#using pytube still developing
