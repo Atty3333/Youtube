@@ -76,10 +76,7 @@ def download_video(url, output_path,PROJECT_ROOT):#using ytdlp
             }
         except Exception as e:
                 traceback.print_exc()        
-            with YoutubeDL(ydl_opts) as ydl:
-                print(f"⬇️ Downloading: {url}")
-                ydl.download([url])
-            return output_path
+
     except Exception as e:
             traceback.print_exc()        
 
