@@ -5,6 +5,8 @@ import traceback
 import yt_dlp
 import os
 import random
+from pytube import YouTube
+from moviepy.editor import VideoFileClip, AudioFileClip
 
 def search_and_download(keyword, output_path=os.path.normpath('clips/source_video.mp4'), duration_limit=300):
     
@@ -77,7 +79,7 @@ def download_video2(url, output_path,PROJECT_ROOT):#using ytdlp
             traceback.print_exc()        
 
 
-def download_video(url, output_path):#using pytube
+def download_video(url, output_path,PROJECT_ROOT):#using pytube
     try:
         print(f"⬇️ Downloading: {url}")
         
