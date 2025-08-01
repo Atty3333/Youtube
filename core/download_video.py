@@ -48,7 +48,9 @@ def download_video(url, output_path,PROJECT_ROOT):#using ytdlp
     cookie=os.path.join(PROJECT_ROOT, 'youtube.com_cookies.txt')
     print(cookie)
     if not os.path.exists(cookie):
-        raise FileNotFoundError(f"Cookies file not found: {cookie}")
+        print("there")
+    else:
+        print("Not there")
     try:
 
             ydl_opts = {
