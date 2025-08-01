@@ -44,7 +44,7 @@ def search_and_download(keyword, output_path=os.path.normpath('clips/source_vide
     print("❌ No suitable video found.")
     return None
 
-def download_video2(url, output_path,PROJECT_ROOT):#using ytdlp
+def download_video(url, output_path,PROJECT_ROOT):#using ytdlp
     cookie=os.path.join(PROJECT_ROOT, 'youtube.com_cookies.txt')
     print(cookie)
     try:
@@ -79,7 +79,7 @@ def download_video2(url, output_path,PROJECT_ROOT):#using ytdlp
             traceback.print_exc()        
 
 
-def download_video(url, output_path,PROJECT_ROOT):#using pytube
+def download_video2(url, output_path,PROJECT_ROOT):#using pytube still developing
     try:
         print(f"⬇️ Downloading: {url}")
         
