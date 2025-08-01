@@ -83,7 +83,7 @@ def download_video(url, output_path,PROJECT_ROOT):#using pytube
     try:
         print(f"⬇️ Downloading: {url}")
         
-        yt = YouTube(url)
+        yt = YouTube(url, use_po_token=True)
 
         # Get 360p video stream (video-only)
         video_stream = yt.streams.filter(progressive=False, file_extension='mp4', res="360p", only_video=True).first()
