@@ -2,8 +2,8 @@ name: YouTube Upload Bot
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Runs at 11:00 PM UTC daily
-  workflow_dispatch:       # Allows you to trigger manually from GitHub
+    - cron: '*/5 * * * *'  # Every 5 minutes (adjust if needed)
+  workflow_dispatch:
 
 jobs:
   run-bot:
@@ -26,6 +26,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install Playwright browsers
+        run: playwright install --with-deps
+
       - name: Run upload bot
         run: python main.py
-
