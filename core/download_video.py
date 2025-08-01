@@ -5,7 +5,7 @@ import traceback
 import yt_dlp
 import os
 import random
-from pytube import YouTube
+from pytubefix import YouTube
 from moviepy.editor import VideoFileClip, AudioFileClip
 
 def search_and_download(keyword, output_path=os.path.normpath('clips/source_video.mp4'), duration_limit=300):
