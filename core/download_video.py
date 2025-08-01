@@ -44,43 +44,46 @@ def search_and_download(keyword, output_path=os.path.normpath('clips/source_vide
     print("❌ No suitable video found.")
     return None
 
-def download_video(url, output_path,PROJECT_ROOT):#using ytdlp
-    cookie=os.path.join(PROJECT_ROOT, 'youtube.com_cookies.txt')
-    print(cookie)
-    if not os.path.exists(cookie):
-        print("NOT there")
+def download_video(url, output_path, PROJECT_ROOT):
+    cookie_path = os.path.join(PROJECT_ROOT, 'youtube.com_cookies.txt')
+    print(f"Using cookie file: {cookie_path}")
+
+    if not os.path.exists(cookie_path):
+        print("❌ Cookie file not found!")
+        return None
     else:
-        print(" there")
+        print("✅ Cookie file found.")
+
     try:
-        try:
-            ydl_opts = {
-                'format': 'bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/mp4',  # 360p video with audio, fallback to mp4
-                'outtmpl': output_path,
-                'quiet': False,
-                'merge_output_format': 'mp4',
-                
-                "retries": 10,  # ⬅️ retry up to 10 times
-                "fragment_retries": 10,
-                "socket_timeout": 30,
-                "noplaylist": True,
-                'cookies':cookie,
+        ydl_opts = {
+            'format': 'bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/mp4',  # 360p mp4 fallback
+            'outtmpl': output_path,
+            'quiet': False,
+            'merge_output_format': 'mp4',
+            'retries': 10,
+            'fragment_retries': 10,
+            'socket_timeout': 30,
+            'noplaylist': True,
+            'cookies': cookie_path,
 
-        
-                'postprocessors': [
-        
-                    {
-                        'key': 'FFmpegMetadata',
-                    }
-                ],
-                'postprocessor_args': ['-an'],  # Mute audio by disabling it
-            }
-        except Exception as e:
-                traceback.print_exc()
-            with YoutubeDL(ydl_opts) as ydl:
-                print(f"⬇️ Downloading: {url}")
-                ydl.download([url])
-            return output_path
+            'postprocessors': [
+                {
+                    'key': 'FFmpegMetadata',
+                }
+            ],
+            'postprocessor_args': ['-an'],  # remove this if you want to keep audio!
+        }
 
+        print(f"⬇️ Downloading: {url}")
+        with YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+        print("✅ Download completed.")
+        return output_path
+
+    except Exception as e:
+        print("❗ An error occurred while downloading:")
+        traceback.print_exc()
+        return None
        
 
 
