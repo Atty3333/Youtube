@@ -56,23 +56,15 @@ def download_video(url, output_path, PROJECT_ROOT):
 
     try:
         ydl_opts = {
-            'format': 'bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/mp4',  # 360p mp4 fallback
+            'format': 'mp4',
             'outtmpl': output_path,
             'quiet': False,
-            'merge_output_format': 'mp4',
-            'retries': 10,
-            'fragment_retries': 10,
-            'socket_timeout': 30,
             'noplaylist': True,
-            'cookies': cookie_path,
-
-            'postprocessors': [
-                {
-                    'key': 'FFmpegMetadata',
-                }
-            ],
-            'postprocessor_args': ['-an'],  # remove this if you want to keep audio!
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115 Safari/537.36'
+            }
         }
+
 
         print(f"⬇️ Downloading: {url}")
         with YoutubeDL(ydl_opts) as ydl:
