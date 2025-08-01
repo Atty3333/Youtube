@@ -43,9 +43,10 @@ def search_and_download(keyword, output_path=os.path.normpath('clips/source_vide
     return None
 
 def download_video(url, output_path,PROJECT_ROOT):
+    cookie=os.path.join(PROJECT_ROOT, 'youtube.com_cookies.txt')
+    print(cookie)
     try:
-            cookie=os.path.join(PROJECT_ROOT, 'youtube.com_cookies.txt')
-            print(cookie)
+
             ydl_opts = {
                 'format': 'bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/mp4',  # 360p video with audio, fallback to mp4
                 'outtmpl': output_path,
